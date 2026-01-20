@@ -7,7 +7,9 @@ Gelişmiş veri istihbaratı ve yapay zeka destekli piyasa analiz platformu.
 </head>
 <body>
     <h1>NEXUS INTELLIGENCE Projesi</h1>
-    <p>Projenin tam dokümantasyonu için: <a href="[kopya.html](https://furkanak47.github.io/kopya.html/kopya.html)">GERÇEK READ ME</a></p>
+    <p># NEXUS INTELLIGENCE Projesi
+
+Projenin tam dokümantasyonu için: [GERÇEK READ ME](https://furkanak47.github.io/kopya.html/kopya.html)</p>
 </body>
 </html>
 🌟 Özellikler
