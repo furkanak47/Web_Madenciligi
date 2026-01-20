@@ -1,0 +1,16 @@
+PROJE: NEXUS INTELLIGENCE - YAPAY ZEKA DESTEKLİ KRİPTO PİYASA ANALİZİ
+HAZIRLAYAN: [Senin Adın Soyadın]
+TARİH: 18.01.2026
+
+--- DOSYA İÇERİKLERİ ---
+1. KRIPTO_AI_BEYNI.pkl: 100.000 satırlık veriyle eğitilmiş Makine Öğrenmesi (Random Forest) model dosyası.
+2. KELIME_VEKTORU.pkl: Yapay zekanın kelimeleri anlaması için gereken sözlük dosyası.
+3. AI_Gercek_Analiz_ULTIMATE.py: Twitter ve YouTube'dan canlı veri çeken ve analiz yapan ana yazılım.
+4. RAPOR_V9_MASTER.html: Yönetim kurulu için hazırlanan görsel strateji dashboard'u.
+
+--- NASIL ÇALIŞTIRILIR? ---
+1. Tüm dosyaların MASAÜSTÜNDE olduğundan emin olun.
+2. Terminali açın ve şu komutu girin:
+   python AI_Gercek_Analiz_ULTIMATE.py
+3. Kod çalışacak, internetten güncel verileri çekecek ve sonucu ekrana yazdıracaktır.
+4. Görsel rapor için "RAPOR_V9_MASTER.html" dosyasına çift tıklamanız yeterlidir.

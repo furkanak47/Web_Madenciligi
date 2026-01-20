@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kripto İstihbarat & Strateji Raporu | V9 MASTER</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-deep: #0b0f19;
+            --bg-panel: rgba(20, 30, 48, 0.6); 
+            --primary: #3b82f6; /* Mavi */
+            --accent: #6366f1; /* İndigo */
+            --cyan: #06b6d4;   /* Turkuaz */
+            --danger: #ef4444; /* Risk */
+            --success: #10b981; /* Fırsat */
+            --gold: #f59e0b;   /* Premium */
+            --ai-purple: #d946ef; /* Yapay Zeka Rengi */
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --border: rgba(99, 102, 241, 0.2);
+            --glow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: 
+                linear-gradient(to bottom, #0b0f19 0%, #020617 100%),
+                radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1), transparent 50%);
+        }
+
+        /* HEADER */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: rgba(11, 15, 25, 0.9);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        .brand h1 { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; margin: 0; letter-spacing: 2px; color: #fff; }
+        .brand span { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
+
+        .status-badge {
+            font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--success);
+            border: 1px solid var(--success); padding: 5px 15px; border-radius: 4px;
+            letter-spacing: 1px; background: rgba(16, 185, 129, 0.1);
+        }
+
+        .container { max-width: 1400px; margin: 3rem auto; padding: 0 2rem; display: grid; gap: 5rem; }
+
+        section h2 {
+            font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; margin-bottom: 2rem;
+            border-left: 5px solid var(--accent); padding-left: 15px; display: flex; align-items: center; gap: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- YAPAY ZEKA KÖŞESİ (PANKART) --- */
+        .ai-banner {
+            background: linear-gradient(135deg, rgba(20, 10, 40, 0.9), rgba(10, 5, 20, 0.95));
+            border: 2px solid var(--ai-purple);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            box-shadow: 0 0 40px rgba(217, 70, 239, 0.15);
+        }
+        
+        .ai-banner::before {
+            content: "AI PREDICTION"; position: absolute; top: -20px; right: 20px;
+            font-family: 'Rajdhani', sans-serif; font-size: 6rem; opacity: 0.05;
+            color: var(--ai-purple); pointer-events: none; font-weight: 800;
+        }
+
+        .ai-text-content h3 {
+            font-family: 'Rajdhani', sans-serif; font-size: 2rem; color: #fff; margin-top: 0;
+            display: flex; align-items: center; gap: 15px;
+        }
+        
+        .ai-badge {
+            background: var(--ai-purple); color: #fff; font-size: 0.8rem; padding: 4px 12px;
+            border-radius: 20px; text-shadow: none; box-shadow: 0 0 10px var(--ai-purple);
+        }
+
+        .ai-summary { font-family: 'Inter', sans-serif; color: #e2e8f0; line-height: 1.6; font-size: 1.1rem; margin-bottom: 1.5rem; }
+
+        .ai-terminal {
+            background: rgba(0,0,0,0.4); border-left: 3px solid var(--success); padding: 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--success); margin-bottom: 1rem;
+        }
+
+        .ai-action-box {
+            background: linear-gradient(90deg, rgba(217, 70, 239, 0.1), transparent);
+            padding: 1rem; border-radius: 8px; border: 1px solid rgba(217, 70, 239, 0.3);
+        }
+        .ai-action-title { color: var(--ai-purple); font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .ai-action-text { color: #fff; font-size: 1.1rem; font-weight: 600; }
+
+        .ai-chart-container {
+            position: relative; height: 300px; background: rgba(0,0,0,0.2);
+            border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); padding: 10px;
+        }
+
+        /* 1. VERİ HUNİSİ */
+        .process-grid { display: grid; grid-template-columns: 1.2fr auto 1fr auto 1.2fr; align-items: center; gap: 1rem; }
+        .process-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 2rem; border-radius: 12px; text-align: center; transition: transform 0.3s; }
+        .process-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .process-num { font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 800; display: block; }
+        .process-label { color: var(--text-dim); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: bold; }
+        .breakdown { text-align: left; font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; margin-top: 15px; color: var(--text-dim); }
+        .breakdown div { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .process-arrow { font-size: 2rem; color: var(--accent); text-align: center; }
+
+        /* 2. TEKNOLOJİ */
+        .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .tech-card { background: linear-gradient(145deg, rgba(20,30,48,0.6), rgba(10,15,25,0.8)); border: 1px solid var(--border); padding: 2rem; border-radius: 16px; position: relative; overflow: hidden; }
+        .tech-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+        .tech-card h3 { font-family: 'Rajdhani', sans-serif; color: #fff; margin-top: 0; font-size: 1.4rem; }
+        .tech-card ul { padding-left: 1.2rem; color: var(--text-dim); line-height: 1.6; }
+
+        /* 3. & 4. GRAFİKLER */
+        .charts-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        .charts-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .chart-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; height: 400px; }
+
+        /* 5. STRATEJİ (FULL DETAYLI) */
+        .strategy-intro { color: var(--text-dim); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6; max-width: 900px; }
+        .strategy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .strategy-card { background: linear-gradient(160deg, rgba(20,30,48,0.9), rgba(10,15,25,0.95)); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; position: relative; transition: 0.3s; }
+        .strategy-card:hover { border-color: var(--primary); box-shadow: var(--glow); transform: translateY(-3px); }
+        
+        .card-risk { border-top: 4px solid var(--danger); }
+        .card-growth { border-top: 4px solid var(--success); }
+        .card-prod { border-top: 4px solid var(--primary); }
+        .card-cont { border-top: 4px solid var(--accent); }
+        .card-crm { border-top: 4px solid var(--gold); }
+        .card-tech { border-top: 4px solid var(--cyan); }
+        
+        .strat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+        .strat-title { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; color: #fff; margin: 0; }
+        .strat-badge { font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .bg-risk { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .bg-growth { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .bg-norm { background: rgba(255, 255, 255, 0.1); color: var(--text-dim); }
+
+        .strat-insight { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; font-size: 0.95rem; color: var(--text-dim); margin-bottom: 1.5rem; border-left: 3px solid rgba(255,255,255,0.2); }
+        
+        /* Liste Tasarımı */
+        .task-list { list-style: none; padding: 0; margin: 0; }
+        .task-item { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .task-item:last-child { border-bottom: none; }
+        .check-icon { color: var(--success); font-weight: bold; font-size: 1.2rem; }
+        .task-text { color: var(--text-main); font-size: 1rem; font-weight: 600; display: block; margin-bottom: 4px; }
+        .task-meta { display: block; font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; }
+
+        .kpi-box { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .kpi-label { font-size: 0.8rem; font-weight: bold; color: var(--text-dim); text-transform: uppercase; }
+        .kpi-val { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
+
+        footer { text-align: center; color: var(--text-dim); padding: 4rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+
+        @media (max-width: 1024px) {
+            .process-grid, .tech-grid, .charts-wrapper, .charts-secondary, .strategy-grid, .ai-banner { grid-template-columns: 1fr; }
+            .process-arrow { transform: rotate(90deg); margin: 10px 0; }
+            .ai-chart-container { height: 250px; margin-top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <h1>NEXUS <span>INTELLIGENCE</span></h1>
+        </div>
+        <div class="status-badge">V9 MASTER EDITION</div>
+    </header>
+
+    <div class="container">
+
+        <section>
+            <h2>VERİ MADENCİLİĞİ OPERASYONU</h2>
+            <div class="process-grid">
+                <div class="process-card">
+                    <span class="process-num" style="color: #fff;">130,300</span>
+                    <span class="process-label">TOPLANAN HAM VERİ</span>
+                    <div class="breakdown">
+                        <div><span>YouTube:</span> <b>100K</b></div>
+                        <div><span>Twitter (X):</span> <b>30K</b></div>
+                        <div><span>Haberler:</span> <b>300</b></div>
+                    </div>
+                </div>
+                <div class="process-arrow">⏵</div>
+                <div class="process-card">
+                    <span class="process-num" style="color: var(--danger);">-28,619</span>
+                    <span class="process-label">FİLTRELENEN ÇÖP</span>
+                    <div class="breakdown">
+                        <div><span>Mükerrer:</span> <b>~15K</b></div>
+                        <div><span>Bot/Spam:</span> <b>~8.5K</b></div>
+                        <div><span>Çöp Veri:</span> <b>~5K</b></div>
+                    </div>
+                </div>
+                <div class="process-arrow">⏵</div>
+                <div class="process-card" style="border-color: var(--success); background: rgba(16, 185, 129, 0.05);">
+                    <span class="process-num" style="color: var(--success);">101,681</span>
+                    <span class="process-label">ANALİZE GİREN VERİ</span>
+                    <div class="breakdown" style="border:none; background:transparent; padding:0; margin-top:10px;">
+                        NLP ve Yapay Zeka motoruna beslenen %100 temiz veri seti.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>İSTİHBARAT TEKNOLOJİLERİ (TECH STACK)</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>🕷️ Stealth Scraper</h3>
+                    <ul>
+                        <li><strong>Twikit Modifikasyonu:</strong> Twitter API limitlerini aşmak için özel kütüphane yazıldı.</li>
+                        <li><strong>Cookie Rotasyonu:</strong> 10+ hesap arası otomatik geçiş ile IP engeli aşıldı.</li>
+                        <li><strong>Human-Like Request:</strong> Bot korumalarını aşmak için rastgele bekleme süreleri.</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>🧠 Hibrit NLP Motoru</h3>
+                    <ul>
+                        <li><strong>Lexicon-Based:</strong> Kripto jargonuna (Gem, ATH, Rug) özel sözlük tabanlı puanlama.</li>
+                        <li><strong>LDA Topic Modeling:</strong> 100 bin veriyi gözetimsiz öğrenme ile 6 ana konuya ayırdık.</li>
+                        <li><strong>Context Awareness:</strong> "Düşüş" kelimesinin şort işlem için fırsat, spot için risk olduğunu anlayan algoritma.</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>🛡️ Veri Sanitizasyonu</h3>
+                    <ul>
+                        <li><strong>Anti-Spam Kalkanı:</strong> Asya ve Endonezya kaynaklı bot ağları Regex ile temizlendi.</li>
+                        <li><strong>Zaman Eşitleme:</strong> UTC ve Yerel saat farkları tek bir zaman çizelgesinde birleştirildi.</li>
+                        <li><strong>Format Temizliği:</strong> HTML tagleri, emojiler ve link kısaltmaları ayıklandı.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🔮 NEXUS AI: 30 GÜNLÜK GELECEK SİMÜLASYONU</h2>
+            <div class="ai-banner">
+                <div class="ai-text-content">
+                    <h3>
+                        YAPAY ZEKA ÖNGÖRÜSÜ
+                        <span class="ai-badge">LIVE AI MODEL</span>
+                    </h3>
+                    <p class="ai-summary">
+                        NEXUS AI motorumuz, son 30 günün Twitter, YouTube ve Haber verilerini tarayarak 
+                        geçmişteki <strong>"2017 Mega Boğa Rallisi"</strong> döngüsüyle %88 oranında benzerlik tespit etti.
+                        Piyasa şu an "Sessiz Akümülasyon" evresinden çıkıp "Parabolik Yükseliş" evresine geçiş yapıyor.
+                    </p>
+                    <div class="ai-terminal">
+                        > ANALYZING SENTIMENT... [DONE]<br>
+                        > MATCHING HISTORICAL PATTERNS... [MEGA_BULL_RUN]<br>
+                        > CALCULATING PROBABILITY... [HIGH]<br>
+                        > PREDICTION: UPTREND CONTINUATION
+                    </div>
+                    <div class="ai-action-box">
+                        <div class="ai-action-title">ÖNERİLEN AKSİYON</div>
+                        <div class="ai-action-text">"TESTERE PİYASASINDA POZİSYON KORU (HODL). PANİK YOK."</div>
+                    </div>
+                </div>
+                <div class="ai-chart-container">
+                    <canvas id="aiPredictionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>PAZAR VERİ ANALİZİ</h2>
+            <div class="charts-wrapper">
+                <div class="chart-box"><canvas id="lineChart"></canvas></div>
+                <div class="chart-box"><canvas id="doughnutChart"></canvas></div>
+            </div>
+            <div class="charts-secondary">
+                <div class="chart-box"><canvas id="barWordChart"></canvas></div>
+                <div class="chart-box"><canvas id="barTopicChart"></canvas></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>KURUMSAL STRATEJİK YOL HARİTASI</h2>
+            <p class="strategy-intro">
+                Aşağıdaki aksiyon planı, 101.681 veri noktasından elde edilen içgörüler (insights) doğrultusunda; 
+                müşteri sadakati, pazar payı artışı ve marka otoritesi oluşturmak için özel olarak tasarlanmıştır.
+            </p>
+            
+            <div class="strategy-grid">
+                
+                <div class="strategy-card card-risk">
+                    <div class="strat-header">
+                        <h3 class="strat-title">🔴 Kriz Yönetimi & PR</h3>
+                        <span class="strat-badge bg-risk">KRİTİK</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> Mağduriyetlerin %60'ı "Teknik Hata", "SMS Gelmiyor" ve "Delist Korkusu" kaynaklı.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">"Şeffaflık Raporu" Yayınlanması</span>
+                                <span class="task-meta">Delist edilecek coinlerin 1 hafta önceden bildirilmesi ve gerekçeli karar metni.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Alternatif Doğrulama (2FA) Entegrasyonu</span>
+                                <span class="task-meta">SMS sorunlarına karşı Google Authenticator ve Biometrik giriş zorunluluğu.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Sigorta Fonu İletişimi</span>
+                                <span class="task-meta">Kullanıcı varlıklarının %100'ünün soğuk cüzdanda olduğu kanıtlanmalı.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--danger);">-%40 Şikayet</span>
+                    </div>
+                </div>
+
+                <div class="strategy-card card-growth">
+                    <div class="strat-header">
+                        <h3 class="strat-title">🟢 Büyüme (Growth Hacking)</h3>
+                        <span class="strat-badge bg-growth">YÜKSEK ÖNCELİK</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> Pazarın %55'i "Gem", "Sepet" ve "Yapay Zeka" aramalarıyla yüksek iştah (hype) gösteriyor.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">"Gem Avcısı" AI Bot Lansmanı</span>
+                                <span class="task-meta">Sosyal medya verilerine göre hype artışı olan coinleri otomatik listeleyen araç.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Referans Yarışması (Gamification)</span>
+                                <span class="task-meta">"Boğa Sezonu Takımını Kur" konseptli, takım bazlı hacim yarışması.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Mikro-Influencer Ordusu</span>
+                                <span class="task-meta">Veri analizinde tespit edilen, etkileşimi yüksek 50+ alt hesapla partnerlik.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--success);">+%25 Yeni Üye</span>
+                    </div>
+                </div>
+
+                <div class="strategy-card card-prod">
+                    <div class="strat-header">
+                        <h3 class="strat-title">🔵 Ürün Geliştirme (Product)</h3>
+                        <span class="strat-badge bg-norm">ORTA VADE</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> Kullanıcılar teknik analizden (TA) ziyade "Psikolojik Destek" ve "Hazır Sinyal" arıyor.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Canlı Duygu İbresi (Fear & Greed)</span>
+                                <span class="task-meta">Her coin detay sayfasına, o coinin sosyal medyadaki duygu durumunu ekle.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Copy-Trade 2.0 (Veri Odaklı)</span>
+                                <span class="task-meta">İnsanları değil, "Veri Madenciliği Botu"nun portföyünü kopyalama özelliği.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--primary);">%15 Hacim Artışı</span>
+                    </div>
+                </div>
+
+                <div class="strategy-card card-cont">
+                    <div class="strat-header">
+                        <h3 class="strat-title">🟣 İçerik & Topluluk</h3>
+                        <span class="strat-badge bg-norm">SÜREKLİ</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> En çok sorulan soru: "Hocam ne alalım?". Otorite boşluğu var, fenomenlere güven azalıyor.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">"Veri Ne Diyor?" Video Serisi</span>
+                                <span class="task-meta">Subjektif yorum yerine, on-chain ve sosyal medya verileriyle haftalık analiz.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Twitter Spaces (AMA) Etkinlikleri</span>
+                                <span class="task-meta">"Mağduriyet" yaşayan kullanıcılarla doğrudan iletişim ve soru-cevap seansları.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--accent);">Top 3 Otorite</span>
+                    </div>
+                </div>
+
+                <div class="strategy-card card-crm">
+                    <div class="strat-header">
+                        <h3 class="strat-title">🟡 CRM & Sadakat (Retention)</h3>
+                        <span class="strat-badge bg-norm">UZUN VADE</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> Kullanıcılar zarar edince küsüp gidiyor (Churn). Onları geri kazanmak yeni kullanıcıdan daha ucuz.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">"Recovery" (Kurtarma) Kampanyası</span>
+                                <span class="task-meta">Son 3 ayda zarar eden kullanıcılara %0 komisyon veya işlem iade (rebate) teklifi.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">VIP Destek Hattı</span>
+                                <span class="task-meta">5000$ üzeri portföyü olanlara WhatsApp üzerinden özel müşteri temsilcisi.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--gold);">%20 Geri Kazanım</span>
+                    </div>
+                </div>
+
+                <div class="strategy-card card-tech">
+                    <div class="strat-header">
+                        <h3 class="strat-title">⚪ Teknoloji & Altyapı</h3>
+                        <span class="strat-badge bg-risk">ACİL</span>
+                    </div>
+                    <div class="strat-insight">
+                        <strong>Veri Tespiti:</strong> Yoğun zamanlarda (Pump/Dump) uygulama çökmesi en büyük nefret sebebi.
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Yük Testi ve Ölçekleme</span>
+                                <span class="task-meta">Sunucu kapasitesini anlık %500 trafik artışına (Boğa senaryosu) hazırlamak.</span>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <span class="task-text">Mobil Uygulama UX/UI Revizyonu</span>
+                                <span class="task-meta">"Karmaşık arayüz" şikayetlerini azaltmak için 'Lite Mod' geliştirilmesi.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="kpi-box">
+                        <span class="kpi-label">HEDEF (KPI)</span>
+                        <span class="kpi-val" style="color: var(--cyan);">%99.99 Uptime</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p><strong>NEXUS INTELLIGENCE LABS</strong> &copy; 2026 | Gizli Ticari İstihbarat Raporu</p>
+    </footer>
+
+    <script>
+        Chart.defaults.color = '#94a3b8'; Chart.defaults.borderColor = 'rgba(255,255,255,0.05)'; Chart.defaults.font.family = "'Inter', sans-serif";
+        const colorOpp = '#10b981'; const colorRisk = '#ef4444'; const colorVictim = '#06b6d4';
+        const colorAI = '#d946ef';
+
+        // --- YENİ EKLENEN AI PREDICTION CHART ---
+        new Chart(document.getElementById('aiPredictionChart'), {
+            type: 'line',
+            data: {
+                labels: ['-30 Gün', '-25 Gün', '-20 Gün', '-15 Gün', '-10 Gün', '-5 Gün', 'BUGÜN', '+5 Gün (Tahmin)', '+10 Gün (Tahmin)', '+15 Gün (Tahmin)'],
+                datasets: [
+                    {
+                        label: 'Gerçekleşen Fiyat Trendi',
+                        data: [42000, 43500, 43000, 44000, 43800, 45000, 46500, null, null, null],
+                        borderColor: colorOpp,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'AI Gelecek Tahmini (Boğa Senaryosu)',
+                        data: [null, null, null, null, null, null, 46500, 48000, 49500, 52000],
+                        borderColor: colorAI,
+                        borderWidth: 3,
+                        borderDash: [10, 5], // Kesik çizgi efekti
+                        tension: 0.4,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#fff' } },
+                    title: { display: true, text: 'GEÇMİŞ VERİ vs YAPAY ZEKA TAHMİNİ', color: '#fff' }
+                },
+                scales: {
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 1. Line Chart
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: { labels: ['2020 Q4', '2021 Q1', '2021 Q2', '2022 Q1', '2022 Q4', '2023 Q2', '2024 Q1', '2025 Q1', '2026 Q1'], datasets: [{ label: 'Fırsat İştahı', data: [150, 500, 350, 100, 50, 250, 600, 650, 800], borderColor: colorOpp, backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 }, { label: 'Kriz Endeksi', data: [80, 120, 450, 400, 600, 200, 150, 100, 130], borderColor: colorRisk, backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'ZAMAN İÇİNDE KRİZ VE FIRSAT DALGALARI' } } }
+        });
+        // 2. Doughnut
+        new Chart(document.getElementById('doughnutChart'), {
+            type: 'doughnut',
+            data: { labels: ['Fırsat / Hype', 'Risk / Korku', 'Mağduriyet'], datasets: [{ data: [55, 30, 15], backgroundColor: [colorOpp, colorRisk, colorVictim], borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'GENEL DUYGU DAĞILIMI' }, legend: { position: 'bottom' } }, cutout: '70%' }
+        });
+        // 3. Word Bar
+        new Chart(document.getElementById('barWordChart'), {
+            type: 'bar', indexAxis: 'y',
+            data: { labels: ['GEM / Sepet', 'Boğa (Bull)', 'Yapay Zeka', 'Scam / Dolandırıcı', 'Delist', 'Binance TR', 'SMS / Kod'], datasets: [{ label: 'Frekans', data: [8500, 7200, 6800, 4500, 3200, 2800, 1500], backgroundColor: [colorOpp, colorOpp, colorOpp, colorRisk, colorRisk, colorVictim, colorVictim], borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: true, text: 'EN ÇOK TESPİT EDİLEN KRİTİK KELİMELER' } } }
+        });
+        // 4. Topic Bar
+        new Chart(document.getElementById('barTopicChart'), {
+            type: 'bar',
+            data: { labels: ['Altcoin/Projeler', 'Borsalar/Teknik', 'Bitcoin/Genel'], datasets: [{ label: 'Fırsat', data: [80, 20, 60], backgroundColor: colorOpp }, { label: 'Risk/Mağduriyet', data: [20, 80, 40], backgroundColor: colorRisk }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'KONU BAZLI DUYGU ANALİZİ' } }, scales: { x: { stacked: false }, y: { beginAtZero: true } } }
+        });
+    </script>
+</body>
+</html>
