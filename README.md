@@ -1,6 +1,15 @@
 NEXUS INTELLIGENCE V10 MASTER
 Gelişmiş veri istihbaratı ve yapay zeka destekli piyasa analiz platformu.
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEXUS INTELLIGENCE</title>
+</head>
+<body>
+    <h1>NEXUS INTELLIGENCE Projesi</h1>
+    <p>Projenin tam dokümantasyonu için: <a href="kopya.html">GERÇEK READ ME</a></p>
+</body>
+</html>
 🌟 Özellikler
 📊 Veri İşleme Hattı
 Toplanan Ham Veri: 130.300+ kayıt
