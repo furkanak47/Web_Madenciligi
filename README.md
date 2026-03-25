@@ -4,7 +4,7 @@ Gelişmiş veri istihbaratı ve yapay zeka destekli piyasa analiz platformu.
 
 NEXUS INTELLIGENCE V10 MASTER: Gelişmiş veri istihbaratı ve yapay zeka destekli piyasa analiz platformu.
 
-[👉 GERÇEK READ ME (DOKÜMANTASYON) İÇİN TIKLAYIN](https://furkanak47.github.io/Web_Madenciligi/kopya.html)
+[👉 GERÇEK READ ME (DOKÜMANTASYON) İÇİN TIKLAYIN](https://furkanak47.github.io/Web_Madenciligi/index.html)
 
 ---
 
